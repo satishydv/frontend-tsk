@@ -36,7 +36,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-screen overflow-hidden px-20">
       {/* Slider Images */}
       {slides.map((slide, index) => (
         <div
@@ -67,7 +67,7 @@ const Hero = () => {
           <p className="text-xl md:text-2xl mb-8 tracking-wider">
             {slides[currentSlide].subtitle}
           </p>
-          <div className="flex justify-center gap-4 ">
+          <div className="flex flex-col md:flex-row justify-center gap-4 ">
             <Link 
               href="/temporary"
               className="border-2 border-white px-8 py-3 text-white hover:bg-white hover:text-black transition-colors duration-300"
