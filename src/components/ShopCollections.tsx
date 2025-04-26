@@ -55,17 +55,17 @@ const collections = [
 
 const ShopCollections = () => {
   return (
-    <section className="py-16 px-4 md:px-8">
-      <h2 className="text-4xl md:text-5xl text-center mb-12 tracking-wider font-light">
+    <section className="py-8 sm:py-12 md:py-16 px-2 sm:px-4 md:px-8">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl text-center mb-8 sm:mb-12 tracking-wider font-light">
         SHOP COLLECTIONS
       </h2>
       
-      <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-3  md:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
         {collections.map((collection) => (
           <Link 
             href={collection.href}
             key={collection.id}
-            className="group relative overflow-hidden aspect-square "
+            className="group relative overflow-hidden aspect-square bg-black"
           >
             {/* Image Container */}
             <div 
@@ -79,8 +79,8 @@ const ShopCollections = () => {
             </div>
             
             {/* Title */}
-            <div className="relative h-full flex items-center justify-center">
-              <h3 className="text-white text-xl md:text-2xl font-light tracking-widest text-center px-4">
+            <div className="relative h-full flex items-center justify-center p-2 sm:p-3 md:p-4">
+              <h3 className="text-white text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-lg font-light tracking-widest text-center leading-tight">
                 {collection.title}
               </h3>
             </div>

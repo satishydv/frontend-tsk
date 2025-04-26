@@ -67,7 +67,7 @@ const Hero = () => {
           <p className="text-xl md:text-2xl mb-8 tracking-wider">
             {slides[currentSlide].subtitle}
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4 ">
             <Link 
               href="/temporary"
               className="border-2 border-white px-8 py-3 text-white hover:bg-white hover:text-black transition-colors duration-300"
