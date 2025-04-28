@@ -50,6 +50,12 @@ const collections = [
     title: 'SEMI-PERMANENT',
     image: '/collections/semi-permanent.jpg',
     href: '/collections/semi-permanent'
+  },
+  {
+    id: 9,
+    title: 'SEMI-PERMANENT',
+    image: '/collections/semi-permanent.jpg',
+    href: '/collections/semi-permanent'
   }
 ];
 

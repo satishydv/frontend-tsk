@@ -12,7 +12,7 @@ const products = [
     price: 700,
     originalPrice: 900,
     rating: 5,
-    image: '/products/moon-tattoo.jpg',
+    image: '/products/moon-tattoo.png',
     isSale: true,
     saveAmount: 200
   },
@@ -21,7 +21,7 @@ const products = [
     name: 'Love Rose - Semi-Permanent Tattoo',
     price: 1000,
     rating: 5,
-    image: '/products/love-rose-tattoo.jpg',
+    image: '/products/love-rose-tattoo.png',
     isSale: false,
     saveAmount: 200
   },
@@ -30,7 +30,7 @@ const products = [
     name: 'Dragon - Semi-Permanent Tattoo',
     price: 800,
     rating: 4,
-    image: '/products/dragon-tattoo.jpg',
+    image: '/products/dragon-tattoo.png',
     isSale: false,
     saveAmount: 200
   },
@@ -40,7 +40,7 @@ const products = [
     price: 600,
     originalPrice: 750,
     rating: 5,
-    image: '/products/butterfly-tattoo.jpg',
+    image: '/products/butterfly-tattoo.png',
     isSale: true,
     saveAmount: 150
   },
@@ -49,7 +49,7 @@ const products = [
     name: 'Phoenix - Semi-Permanent Tattoo',
     price: 900,
     rating: 4,
-    image: '/products/phoenix-tattoo.jpg',
+    image: '/products/phoenix-tattoo.png',
     isSale: false,
     saveAmount: 200
   }
@@ -62,7 +62,7 @@ const SemiPermanentSlider = () => {
     <section className="py-8 px-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-light tracking-wider">FEATURED-COLLECTION</h2>
-        <Link href="/semi-permanent" className="text-gray-600 hover:text-black">
+        <Link href="/semi-permanent" className="text-blue-300 hover:text-black text-xl">
           VIEW ALL
         </Link>
       </div>
@@ -71,9 +71,9 @@ const SemiPermanentSlider = () => {
         <div className="overflow-x-auto hide-scrollbar">
           <div className="flex gap-4 min-w-max">
             {products.map((product) => (
-              <div key={product.id} className="w-[280px] relative group">
+              <div key={product.id} className="w-[180px] md:w-[280px] relative group rounded-lg">
                 {/* Wishlist Button */}
-                <button className="absolute right-4 top-4 z-10 bg-white p-2 rounded-full shadow-md">
+                <button className="absolute right-4 top-4 z-10 bg-grey p-2 text-black rounded-full shadow-md">
                   <AiOutlineHeart className="w-5 h-5" />
                 </button>
 
@@ -101,13 +101,19 @@ const SemiPermanentSlider = () => {
                   <h3 className="font-light text-sm">{product.name}</h3>
                   
                   {/* Rating */}
+                  <div className='flex justify-between'>
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={i < product.rating ? "text-black" : "text-gray-300"}>
+                      <span key={i} className={i < product.rating ? "text-blue-400" : "text-gray-300"}>
                         ★
                       </span>
                     ))}
                   </div>
+                  <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                        <AiOutlineShoppingCart className="w-5 h-5" />
+                      </button>
+                  </div>
+                  
 
                   {/* Price Section */}
                   <div className="space-y-1">
@@ -128,9 +134,9 @@ const SemiPermanentSlider = () => {
                           Save Rs. {product.saveAmount.toFixed(2)}
                         </span>
                       )}
-                      <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                      {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                         <AiOutlineShoppingCart className="w-5 h-5" />
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
