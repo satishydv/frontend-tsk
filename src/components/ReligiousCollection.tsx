@@ -10,7 +10,7 @@ const ReligiousCollection = () => {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Shiva Card */}
           <div className="relative overflow-hidden group rounded-md">
-            <div className="relative h-[500px] w-full">
+            <div className="relative h-[300px] w-full">
               {/* Placeholder for Shiva image - replace src with actual image path */}
               <Image
                 src="/religious/shiva.jpg"
@@ -36,7 +36,7 @@ const ReligiousCollection = () => {
 
           {/* Krishna Card */}
           <div className="relative overflow-hidden group rounded-md">
-            <div className="relative h-[500px] w-full">
+            <div className="relative h-[300px] w-full">
               {/* Placeholder for Krishna image - replace src with actual image path */}
               <Image
                 src="/religious/krishna.png"

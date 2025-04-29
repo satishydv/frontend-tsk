@@ -1,12 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import { FaInstagram, FaFacebookF, FaPinterestP, FaTiktok } from 'react-icons/fa';
 
 const faqs = [
-  'Semi-Permanent vs Temporary?',
-  'Is INKHUB Tattoos safe?',
-  'How long does an Inkhub tattoo last?',
-  'Do Inkhub tattoos expire?'
+  {
+    question: 'How does Inkbox work?',
+    answer: 'Dummy answer: Inkbox tattoos use a special formula to sink into the top layer of your skin and fade gradually over 1-2 weeks.'
+  },
+  {
+    question: 'How long does an Inkbox tattoo last?',
+    answer: 'Dummy answer: Inkbox tattoos typically last 1-2 weeks depending on placement and care.'
+  },
+  {
+    question: 'What color/shade will my tattoo be?',
+    answer: 'Dummy answer: Inkbox tattoos develop into a dark blue or black shade, similar to a real tattoo.'
+  },
+  {
+    question: 'What if I want to remove my tattoo sooner?',
+    answer: 'Dummy answer: You can try exfoliating the area to help fade the tattoo more quickly.'
+  },
 ];
 
 const policies = [
@@ -17,28 +30,36 @@ const policies = [
 ];
 
 const Footer = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   return (
     <footer className="w-full bg-white border-t border-gray-200">
       <div className="max-w-md mx-auto px-4 pt-4 pb-2">
         {/* Heading */}
-        <h2 className="text-left text-2xl font-light tracking-wide text-black mb-2">FAQS</h2>
+        <h2 className="text-center text-[24px] font-heading text-heading6 mt-6 font-extrabold tracking-wide text-black mb-2 md:text-3xl">Frequently Asked Questions</h2>
+        <div className="text-center mb-4 text-base text-gray-700">
+          More Questions? Visit the{' '}
+          <a href="#" className="underline font-medium text-black">Help & FAQ Center</a>
+        </div>
         {/* FAQ Dropdowns */}
         <div className="flex flex-col gap-1 mb-4">
-          {faqs.map((q, i) => (
-            <button
-              key={i}
-              className="w-full flex items-center gap-2 py-2 text-left text-base font-light text-black focus:outline-none"
-              tabIndex={0}
-            >
-              <span className="flex items-center justify-center w-7 h-7 rounded-full border border-gray-300 bg-white text-lg text-gray-500">
-                <span className="rotate-90">&#8250;</span>
-              </span>
-              <span className="flex-1">{q}</span>
-            </button>
+          {faqs.map((faq, i) => (
+            <div key={i} className="w-full">
+              <button
+                className="w-full flex items-center justify-between py-4 text-left text-base font-medium text-black focus:outline-none"
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                tabIndex={0}
+              >
+                <span className='font-medium text-base'>{faq.question}</span>
+                <span className={`transition-transform duration-200 text-2xl ${openIndex === i ? 'rotate-45' : ''}`}>+</span>
+              </button>
+              <div className={`overflow-hidden transition-all duration-300 ${openIndex === i ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} text-gray-700 text-base pl-1 pr-2 pb-2`}> 
+                {openIndex === i && <div>{faq.answer}</div>}
+              </div>
+              <hr className="border-gray-200" />
+            </div>
           ))}
         </div>
-        {/* Divider */}
-        <hr className="border-gray-200 my-4" />
         {/* Policy Links */}
         <div className="flex flex-col gap-2 mb-4">
           {policies.map((policy, i) => (

@@ -62,8 +62,8 @@ const collections = [
 const ShopCollections = () => {
   return (
     <section className="py-8 sm:py-12 md:py-16 px-2 sm:px-4 md:px-8">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl text-center mb-8 sm:mb-12 tracking-wider font-light">
-        SHOP COLLECTIONS
+      <h2 className="text-2xl font-bold sm:text-4xl md:text-5xl text-center mb-8 sm:mb-12 tracking-wider sm:font-light">
+        All Products
       </h2>
       
       <div className="grid grid-cols-3  md:grid-cols-4 gap-2 sm:gap-4 md:gap-6">

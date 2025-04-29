@@ -8,7 +8,7 @@ import { AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 const products = [
   {
     id: 1,
-    name: 'Moon - Semi-Permanent Tattoo',
+    name: 'Moon',
     price: 700,
     originalPrice: 900,
     rating: 5,
@@ -18,8 +18,9 @@ const products = [
   },
   {
     id: 2,
-    name: 'Love Rose - Semi-Permanent Tattoo',
+    name: 'Love Rose',
     price: 1000,
+    originalPrice: 1200,
     rating: 5,
     image: '/products/love-rose-tattoo.png',
     isSale: false,
@@ -27,8 +28,9 @@ const products = [
   },
   {
     id: 3,
-    name: 'Dragon - Semi-Permanent Tattoo',
+    name: 'Dragon',
     price: 800,
+    originalPrice: 1000,
     rating: 4,
     image: '/products/dragon-tattoo.png',
     isSale: false,
@@ -36,7 +38,7 @@ const products = [
   },
   {
     id: 4,
-    name: 'Butterfly - Semi-Permanent Tattoo',
+    name: 'Butterfly',
     price: 600,
     originalPrice: 750,
     rating: 5,
@@ -46,8 +48,9 @@ const products = [
   },
   {
     id: 5,
-    name: 'Phoenix - Semi-Permanent Tattoo',
+    name: 'Phoenix',
     price: 900,
+    originalPrice: 1100,
     rating: 4,
     image: '/products/phoenix-tattoo.png',
     isSale: false,
@@ -59,10 +62,11 @@ const SemiPermanentSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   return (
-    <section className="py-8 px-4">
+    <section className="py-3 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-light tracking-wider">FEATURED-COLLECTION</h2>
-        <Link href="/semi-permanent" className="text-blue-300 hover:text-black text-xl">
+        <h2 className="text-sm font-extrabold tracking-normal">FEATURED-COLLECTION</h2>
+        {/* <h2 className=" text-[24px]  text-heading6 font-bold  text-black mb-2 md:text-3xl">FEATURED-COLLECTION</h2> */}
+        <Link href="/semi-permanent" className="text-blue-300 hover:text-black text-sm font-bold">
           VIEW ALL
         </Link>
       </div>
@@ -71,7 +75,7 @@ const SemiPermanentSlider = () => {
         <div className="overflow-x-auto hide-scrollbar">
           <div className="flex gap-4 min-w-max">
             {products.map((product) => (
-              <div key={product.id} className="w-[180px] md:w-[280px] relative group rounded-lg">
+              <div key={product.id} className="w-[180px] md:w-[280px] relative group rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
                 {/* Wishlist Button */}
                 <button className="absolute right-4 top-4 z-10 bg-grey p-2 text-black rounded-full shadow-md">
                   <AiOutlineHeart className="w-5 h-5" />
@@ -85,7 +89,7 @@ const SemiPermanentSlider = () => {
                 )}
 
                 {/* Product Image */}
-                <div className="relative aspect-[3/4] mb-4 bg-gray-100">
+                <div className="relative aspect-[3/4] bg-gray-100">
                   <div className="w-full h-full relative">
                     <Image
                       src={product.image}
@@ -94,49 +98,26 @@ const SemiPermanentSlider = () => {
                       className="object-cover"
                     />
                   </div>
+                  {/* Cart Icon - Repositioned for new height */}
+                  <button className="absolute -bottom-3 right-4 p-2 bg-white hover:bg-gray-100 rounded-full transition-colors shadow-md">
+                    <AiOutlineShoppingCart className="w-5 h-5" />
+                  </button>
                 </div>
 
                 {/* Product Info */}
-                <div className="space-y-2">
-                  <h3 className="font-light text-sm">{product.name}</h3>
+                <div className="space-y-0 relative pb-0 pl-5">
+                  <h3 className="text-lg font-normal">{product.name}</h3>
                   
-                  {/* Rating */}
-                  <div className='flex justify-between'>
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i} className={i < product.rating ? "text-blue-400" : "text-gray-300"}>
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <AiOutlineShoppingCart className="w-5 h-5" />
-                      </button>
-                  </div>
-                  
-
                   {/* Price Section */}
                   <div className="space-y-1">
                     {/* Original Price and Current Price */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex justify-between items-center gap-2 whitespace-nowrap">
                       {product.originalPrice && (
-                        <span className="text-sm text-gray-500 line-through">
-                          Rs. {product.originalPrice.toFixed(2)}
+                        <span className="text-xs text-gray-500 line-through">
+                          Rs. {product.originalPrice}
                         </span>
                       )}
-                      <span className="text-lg">Rs. {product.price.toFixed(2)}</span>
-                    </div>
-                    
-                    {/* Save Amount and Cart */}
-                    <div className="flex items-center justify-between">
-                      {product.saveAmount && (
-                        <span className="text-sm text-red-500">
-                          Save Rs. {product.saveAmount.toFixed(2)}
-                        </span>
-                      )}
-                      {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <AiOutlineShoppingCart className="w-5 h-5" />
-                      </button> */}
+                      <span className="pr-2 font-semi-bold pb-0.5 text-sm">Rs. {product.price}</span>
                     </div>
                   </div>
                 </div>

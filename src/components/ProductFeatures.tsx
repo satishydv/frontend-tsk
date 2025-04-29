@@ -39,7 +39,7 @@ const ProductFeatures = () => {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="flex-none w-[160px] md:w-auto flex flex-col items-center text-center px-2 md:px-0"
+              className="flex-none w-[132px] md:w-auto flex flex-col items-center text-center px-2 md:px-0"
             >
               {/* Icon */}
               <div className="relative w-30 h-30 mb-4">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiMenu } from 'react-icons/fi';
@@ -13,9 +13,9 @@ const menuCategories = [
   { name: 'Prepared & Deli', icon: '🍱' },
   { name: 'Produce', icon: '🥬' },
   { name: 'Meat & Seafood', icon: '🥩' },
-  { name: 'Dairy', icon: '🥛' },
-  { name: 'Bakery', icon: '🥖' },
-  { name: 'Frozen', icon: '❄️' },
+  // { name: 'Dairy', icon: '🥛' },
+  // { name: 'Bakery', icon: '🥖' },
+  // { name: 'Frozen', icon: '❄️' },
   { name: 'Grocery', icon: '🛒' },
   { name: 'Wine & Spirits', icon: '🍷' },
   { name: 'Seasonal', icon: '🎄' },
@@ -24,6 +24,22 @@ const menuCategories = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Handle body scroll lock when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Lock scroll by adding a class to the body
+      document.body.classList.add('overflow-hidden');
+    } else {
+      // Unlock scroll by removing the class
+      document.body.classList.remove('overflow-hidden');
+    }
+    
+    // Cleanup function to ensure scroll is unlocked when component unmounts
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -67,16 +83,37 @@ const Navbar = () => {
 
             {/* Icons */}
             <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-700 hover:text-black">
+              <button className="p-2 text-gray-700 hover:text-black md:hidden">
                 <AiOutlineHeart className="h-6 w-6" />
+              </button>
+              <button className="p-2 text-gray-700 hover:text-black hidden md:block">
+                <AiOutlineSearch className="h-6 w-6" />
               </button>
               <button className="p-2 text-gray-700 hover:text-black">
                 <AiOutlineShoppingCart className="h-6 w-6" />
               </button>
             </div>
           </div>
+
+          {/* Search Box Section */}
+          <div className="pb-3 md:hidden rounded-lg">
+            <div className="relative flex items-center bg-gray-100 rounded-md">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <AiOutlineSearch className="h-5 w-5 text-gray-500 " />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search"
+                className="w-full py-2 pl-10 pr-4 text-sm bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-0 placeholder-gray-500"
+              />
+            </div>
+          </div>
         </div>
       </nav>
+
+     
 
       {/* Mobile Sliding Menu */}
       <div
@@ -91,18 +128,31 @@ const Navbar = () => {
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b bg-white">
+          {/* Menu Header here */}
+          <div className="flex items-center gap-18 p-4 border-b bg-white">
             <button
               onClick={() => setIsMenuOpen(false)}
               className="p-2 -mr-2 text-gray-600 hover:text-gray-900"
             >
               <AiOutlineClose className="h-6 w-6" />
             </button>
+                 {/* Logo */}
+                 <div className="flex-shrink-0">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/logo.avif"
+                  alt="BigBasket"
+                  width={120}
+                  height={40}
+                  className="h-8 md:h-10 w-auto"
+                  priority
+                />
+              </Link>
+            </div>
           </div>
 
           {/* Delivery Location */}
-          <div className="p-4 border-b bg-white">
+          {/* <div className="p-4 border-b bg-white">
             <div className="flex items-center text-gray-700">
               <MdLocationOn className="h-6 w-6 mr-2 text-green-600" />
               <span className="text-sm">Delivery</span>
@@ -110,10 +160,10 @@ const Navbar = () => {
             <button className="mt-1 text-sm font-medium text-gray-900 hover:text-green-600">
               Enter your address
             </button>
-          </div>
+          </div> */}
 
           {/* Categories */}
-          <div className="overflow-y-auto h-[calc(100vh-180px)] bg-white">
+          <div className="overflow-y-auto h-[calc(100vh-80px)] bg-white">
             {menuCategories.map((category, index) => (
               <Link
                 key={category.name}

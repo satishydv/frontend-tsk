@@ -47,7 +47,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden px-20">
+    <div className="relative w-full h-[65vh] md:h-screen overflow-hidden px-4 md:px-20">
       {/* Slider Images */}
       {slides.map((slide, index) => (
         <div
@@ -81,22 +81,22 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 flex items-center justify-center h-full">
         <div className="text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-light mb-4 tracking-widest">
+          <h1 className="text-4xl md:text-7xl font-light mb-2 md:mb-4 tracking-widest">
             {slides[currentSlide].title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 tracking-wider">
+          <p className="text-lg md:text-2xl mb-4 md:mb-8 tracking-wider">
             {slides[currentSlide].subtitle}
           </p>
-          <div className="flex flex-col md:flex-row justify-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center gap-2 md:gap-4">
             <Link 
               href="/temporary"
-              className="border-2 border-white px-4 py-3 text-white hover:bg-white hover:text-black transition-colors duration-300"
+              className="border-2 border-white px-1 py-2 md:px-4 md:py-3 text-white hover:bg-white hover:text-black transition-colors duration-300 text-sm md:text-base rounded-md w-auto"
             >
               TEMPORARY
             </Link>
             <Link 
               href="/semi-permanent"
-              className="border-2 border-white px-4 py-3 text-white hover:bg-white hover:text-black transition-colors duration-300"
+              className="border-2 border-white px-1 py-2 md:px-4 md:py-3 text-white hover:bg-white hover:text-black transition-colors duration-300 text-sm md:text-base rounded-md w-auto"
             >
               SEMI-PERMANENT
             </Link>
@@ -105,15 +105,15 @@ const Hero = () => {
       </div>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-0 right-0">
-        <div className="flex justify-center gap-3">
+      <div className="absolute bottom-4 md:bottom-8 left-0 right-0">
+        <div className="flex justify-center gap-2 md:gap-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300 ${
                 index === currentSlide 
-                  ? 'bg-white w-8' 
+                  ? 'bg-white w-6 md:w-8' 
                   : 'bg-white/50'
               }`}
               aria-label={`Go to slide ${index + 1}`}

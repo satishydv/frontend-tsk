@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const ProteinSlider = () => {
@@ -37,6 +37,13 @@ const ProteinSlider = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <div className="relative w-full max-w-7xl mx-auto overflow-hidden ">
@@ -82,20 +89,6 @@ const ProteinSlider = () => {
             </div> */}
           </div>
         </div>
-
-        {/* Navigation buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-1.5 md:p-2 rounded-full shadow-lg hover:bg-white z-20"
-        >
-          ←
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-1.5 md:p-2 rounded-full shadow-lg hover:bg-white z-20"
-        >
-          →
-        </button>
 
         {/* Dots navigation */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
