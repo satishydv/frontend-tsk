@@ -13,29 +13,69 @@ const menuCategories = [
   { name: 'Prepared & Deli', icon: '🍱' },
   { name: 'Produce', icon: '🥬' },
   { name: 'Meat & Seafood', icon: '🥩' },
-  // { name: 'Dairy', icon: '🥛' },
-  // { name: 'Bakery', icon: '🥖' },
-  // { name: 'Frozen', icon: '❄️' },
   { name: 'Grocery', icon: '🛒' },
   { name: 'Wine & Spirits', icon: '🍷' },
   { name: 'Seasonal', icon: '🎄' },
 ];
 
+const navLinks = [
+  { name: 'New Arrivals', href: '/new-arrivals' },
+  { name: 'Tattoos', href: '/tattoos' },
+  { name: 'Custom Tattoos', href: '/custom-tattoos' },
+  { name: 'Tattoo Markers', href: '/tattoo-markers' },
+  { name: 'Sale', href: '/sale' },
+  { name: 'Categories', href: '/categories' },
+  { name: 'How It Works', href: '/how-it-works' },
+  { name: 'Help Center', href: '/help-center' },
+];
+
+const menuItems = navLinks;
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeLink, setActiveLink] = useState('New Arrivals');
+  const [showNav, setShowNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Handle scroll behavior
+  useEffect(() => {
+    let lastScrollTop = 0;
+    let scrollTimer: NodeJS.Timeout | null = null;
+
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      
+      // Clear the existing timer
+      if (scrollTimer) clearTimeout(scrollTimer);
+      
+      // Set a new timer
+      scrollTimer = setTimeout(() => {
+        if (currentScroll > lastScrollTop && currentScroll > 50) {
+          setShowNav(false);
+        } else {
+          setShowNav(true);
+        }
+        lastScrollTop = currentScroll;
+      }, 100); // Debounce time
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimer) clearTimeout(scrollTimer);
+    };
+  }, []);
 
   // Handle body scroll lock when menu is open
   useEffect(() => {
     if (isMenuOpen) {
-      // Lock scroll by adding a class to the body
       document.body.classList.add('overflow-hidden');
     } else {
-      // Unlock scroll by removing the class
       document.body.classList.remove('overflow-hidden');
     }
     
-    // Cleanup function to ensure scroll is unlocked when component unmounts
     return () => {
       document.body.classList.remove('overflow-hidden');
     };
@@ -56,7 +96,7 @@ const Navbar = () => {
 
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
+              <Link href="/" className="flex items-center ml-1">
                 <Image
                   src="/logo.avif"
                   alt="BigBasket"
@@ -110,10 +150,10 @@ const Navbar = () => {
               />
             </div>
           </div>
+
+
         </div>
       </nav>
-
-     
 
       {/* Mobile Sliding Menu */}
       <div
@@ -128,71 +168,90 @@ const Navbar = () => {
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Menu Header here */}
-          <div className="flex items-center gap-18 p-4 border-b bg-white">
+          {/* Close Button */}
+          <div className="flex justify-end p-4">
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="p-2 -mr-2 text-gray-600 hover:text-gray-900"
+              className="text-black"
             >
               <AiOutlineClose className="h-6 w-6" />
             </button>
-                 {/* Logo */}
-                 <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/logo.avif"
-                  alt="BigBasket"
-                  width={120}
-                  height={40}
-                  className="h-8 md:h-10 w-auto"
-                  priority
-                />
-              </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className="px-4 pb-4">
+            <div className="relative">
+              <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
           </div>
 
-          {/* Delivery Location */}
-          {/* <div className="p-4 border-b bg-white">
-            <div className="flex items-center text-gray-700">
-              <MdLocationOn className="h-6 w-6 mr-2 text-green-600" />
-              <span className="text-sm">Delivery</span>
-            </div>
-            <button className="mt-1 text-sm font-medium text-gray-900 hover:text-green-600">
-              Enter your address
-            </button>
-          </div> */}
-
-          {/* Categories */}
-          <div className="overflow-y-auto h-[calc(100vh-80px)] bg-white">
-            {menuCategories.map((category, index) => (
+          {/* Menu Items */}
+          <div className="overflow-y-auto">
+            {menuItems.map((item) => (
               <Link
-                key={category.name}
-                href={`/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="flex items-center justify-between px-4 py-3 text-gray-900 hover:bg-gray-50 border-b border-gray-100"
-                onClick={() => setIsMenuOpen(false)}
+                key={item.name}
+                href={item.href}
+                className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 font-bold"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setActiveLink(item.name);
+                }}
               >
-                <div className="flex items-center">
-                  <span className="mr-3 text-xl">{category.icon}</span>
-                  <span className="text-sm font-medium">{category.name}</span>
-                </div>
-                <MdKeyboardArrowRight className="h-5 w-5 text-gray-400" />
+                <span className="text-base">{item.name}</span>
+                <MdKeyboardArrowRight className="h-6 w-6 text-gray-400" />
               </Link>
             ))}
           </div>
 
-          {/* Sign In Button */}
-          <div className="absolute bottom-0 left-0 right-0 border-t p-4 bg-white">
-            <Link
-              href="/signin"
-              className="flex items-center text-sm font-medium text-gray-900 hover:text-green-600"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <BiUser className="h-5 w-5 mr-2" />
-              Sign in or create account
-            </Link>
+          {/* Bottom Section */}
+          <div className="absolute bottom-0 left-0 right-0 bg-white border-t">
+            <div className="p-4">
+              <p className="text-sm mb-4">Sign up now to receive 10% off your next purchase</p>
+              <div className="flex gap-4 mb-4">
+                <Link
+                  href="/signup"
+                  className="flex-1 bg-[#ffeb00] text-black py-2 rounded text-center font-medium"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  href="/login"
+                  className="flex-1 border border-black text-black py-2 rounded text-center font-medium"
+                >
+                  Login
+                </Link>
+              </div>
+              <div className="space-y-3">
+                <Link href="/student-discount" className="flex items-center text-sm">
+                  <span className="mr-2">🎓</span>
+                  Student Discount
+                </Link>
+                <Link href="/shipping" className="flex items-center text-sm">
+                  <span className="mr-2">📦</span>
+                  Free Shipping
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </>
   );
 };

@@ -12,7 +12,7 @@ const CommunityVideos = () => {
   return (
     <section className="py-10 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl text-center mb-8 font-light text-black tracking-wider">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-center mb-8 text-black tracking-wider" >
           THE INKHUB COMMUNITY
         </h2>
         <div className="flex md:grid md:grid-cols-5 md:gap-4 overflow-x-auto hide-scrollbar">

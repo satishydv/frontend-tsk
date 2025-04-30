@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import CollectionModal from './CollectionModal';
 
 const collections = [
   {
@@ -60,18 +62,26 @@ const collections = [
 ];
 
 const ShopCollections = () => {
+  const [selectedCollection, setSelectedCollection] = useState<typeof collections[0] | null>(null);
+
+  const handleCollectionClick = (e: React.MouseEvent, collection: typeof collections[0]) => {
+    e.preventDefault();
+    setSelectedCollection(collection);
+  };
+
   return (
-    <section className="py-8 sm:py-12 md:py-16 px-2 sm:px-4 md:px-8">
+    <section className="py-4 sm:py-8 md:py-12 px-1 sm:px-2 md:px-4">
       <h2 className="text-2xl font-bold sm:text-4xl md:text-5xl text-center mb-8 sm:mb-12 tracking-wider sm:font-light">
         All Products
       </h2>
       
-      <div className="grid grid-cols-3  md:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
         {collections.map((collection) => (
           <Link 
             href={collection.href}
             key={collection.id}
             className="group relative overflow-hidden aspect-square bg-black"
+            onClick={(e) => handleCollectionClick(e, collection)}
           >
             {/* Image Container */}
             <div 
@@ -85,7 +95,7 @@ const ShopCollections = () => {
             </div>
             
             {/* Title */}
-            <div className="relative h-full flex items-center justify-center p-2 sm:p-3 md:p-4">
+            <div className="relative h-full flex items-center justify-center p-1 sm:p-2 md:p-3">
               <h3 className="text-white text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-lg font-light tracking-widest text-center leading-tight">
                 {collection.title}
               </h3>
@@ -93,6 +103,13 @@ const ShopCollections = () => {
           </Link>
         ))}
       </div>
+
+      {/* Modal */}
+      <CollectionModal
+        isOpen={!!selectedCollection}
+        onClose={() => setSelectedCollection(null)}
+        collection={selectedCollection || collections[0]}
+      />
     </section>
   );
 };

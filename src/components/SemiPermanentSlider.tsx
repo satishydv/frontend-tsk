@@ -75,22 +75,22 @@ const SemiPermanentSlider = () => {
         <div className="overflow-x-auto hide-scrollbar">
           <div className="flex gap-4 min-w-max">
             {products.map((product) => (
-              <div key={product.id} className="w-[180px] md:w-[280px] relative group rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div key={product.id} className="w-[160px] md:w-[240px] relative group rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
                 {/* Wishlist Button */}
-                <button className="absolute right-4 top-4 z-10 bg-grey p-2 text-black rounded-full shadow-md">
-                  <AiOutlineHeart className="w-5 h-5" />
+                <button className="absolute right-2 top-2 z-10 bg-grey p-1.5 text-black rounded-full shadow-md">
+                  <AiOutlineHeart className="w-4 h-4" />
                 </button>
 
                 {/* Sale Badge */}
                 {product.isSale && (
-                  <div className="absolute left-4 top-4 z-10 bg-black text-white text-xs px-2 py-1">
+                  <div className="absolute left-2 top-2 z-10 bg-black text-white text-xs px-1.5 py-0.5">
                     Sale
                   </div>
                 )}
 
                 {/* Product Image */}
-                <div className="relative aspect-[3/4] bg-gray-100">
-                  <div className="w-full h-full relative">
+                <div className="relative bg-gray-100">
+                  <div className="w-full aspect-square relative">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -99,13 +99,13 @@ const SemiPermanentSlider = () => {
                     />
                   </div>
                   {/* Cart Icon - Repositioned for new height */}
-                  <button className="absolute -bottom-3 right-4 p-2 bg-white hover:bg-gray-100 rounded-full transition-colors shadow-md">
-                    <AiOutlineShoppingCart className="w-5 h-5" />
+                  <button className="absolute -bottom-2 right-2 p-1.5 bg-white hover:bg-gray-100 rounded-full transition-colors shadow-md">
+                    <AiOutlineShoppingCart className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Product Info */}
-                <div className="space-y-0 relative pb-0 pl-5">
+                <div className="space-y-0 relative pb-0 pl-3">
                   <h3 className="text-lg font-normal">{product.name}</h3>
                   
                   {/* Price Section */}
