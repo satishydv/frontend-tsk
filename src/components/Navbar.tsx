@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiMenu } from 'react-icons/fi';
@@ -38,35 +38,36 @@ const Navbar = () => {
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const handleScroll = useCallback(() => {
+    const currentScroll = window.scrollY;
+    
+    if (currentScroll > lastScrollY && currentScroll > 50) {
+      // Scrolling down
+      setShowNav(false);
+    } else {
+      // Scrolling up
+      setShowNav(true);
+    }
+    setLastScrollY(currentScroll);
+  }, [lastScrollY]);
+
   // Handle scroll behavior
   useEffect(() => {
-    let lastScrollTop = 0;
-    let scrollTimer: NodeJS.Timeout | null = null;
+    let ticking = false;
 
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      
-      // Clear the existing timer
-      if (scrollTimer) clearTimeout(scrollTimer);
-      
-      // Set a new timer
-      scrollTimer = setTimeout(() => {
-        if (currentScroll > lastScrollTop && currentScroll > 50) {
-          setShowNav(false);
-        } else {
-          setShowNav(true);
-        }
-        lastScrollTop = currentScroll;
-      }, 100); // Debounce time
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimer) clearTimeout(scrollTimer);
-    };
-  }, []);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [handleScroll]);
 
   // Handle body scroll lock when menu is open
   useEffect(() => {
