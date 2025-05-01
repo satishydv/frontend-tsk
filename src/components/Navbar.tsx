@@ -139,7 +139,7 @@ const Navbar = () => {
           <div className="pb-3 md:hidden rounded-lg">
             <div className="relative flex items-center bg-gray-100 rounded-md">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <AiOutlineSearch className="h-5 w-5 text-gray-500 " />
+                <AiOutlineSearch className="h-5 w-5 text-gray-500" />
               </div>
               <input
                 type="text"
@@ -151,7 +151,44 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Main Navigation Links */}
+          <div className={`border-t border-gray-200 ${showNav ? 'block' : 'hidden'}`}>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex justify-center space-x-8 py-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-black ${
+                    activeLink === link.name ? 'text-black' : 'text-gray-500'
+                  }`}
+                  onClick={() => setActiveLink(link.name)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
 
+            {/* Mobile Navigation */}
+            <div className="md:hidden">
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="flex space-x-6 px-4 py-2 whitespace-nowrap">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`text-sm font-medium transition-colors hover:text-black flex-shrink-0 ${
+                        activeLink === link.name ? 'text-black' : 'text-gray-500'
+                      }`}
+                      onClick={() => setActiveLink(link.name)}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
 
@@ -244,6 +281,13 @@ const Navbar = () => {
       </div>
 
       <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
@@ -256,4 +300,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
