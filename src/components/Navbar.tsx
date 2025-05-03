@@ -75,6 +75,7 @@ const Navbar = () => {
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Handle scroll lock when menu is open
   useEffect(() => {
@@ -180,7 +181,7 @@ const Navbar = () => {
               <button className="p-2 text-gray-700 hover:text-black hidden md:block">
                 <AiOutlineSearch className="h-6 w-6" />
               </button>
-              <button className="p-2 text-gray-700 hover:text-black">
+              <button className="p-2 text-gray-700 hover:text-black" onClick={() => setIsCartOpen(true)}>
                 <AiOutlineShoppingCart className="h-6 w-6" />
               </button>
             </div>
@@ -359,6 +360,29 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sliding Cart Sidebar */}
+      <div
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${isCartOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setIsCartOpen(false)}
+      >
+        <div
+          className={`fixed right-0 top-0 h-full w-[350px] max-w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'} sm:w-[350px] w-full`}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between bg-black text-white px-4 py-3 border-b border-gray-200">
+            <span className="font-bold text-lg tracking-wide">CART</span>
+            <button onClick={() => setIsCartOpen(false)} aria-label="Close Cart">
+              <AiOutlineClose className="h-6 w-6 text-white" />
+            </button>
+          </div>
+          {/* Body */}
+          <div className="flex-1 bg-gray-50 px-4 py-4">
+            <p className="text-sm text-black mt-2">Your cart is currently empty.</p>
           </div>
         </div>
       </div>
