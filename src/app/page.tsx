@@ -10,6 +10,8 @@ import CommunityVideos from '@/components/CommunityVideos';
 import DesignCategories from '@/components/DesignCategories';
 import ProteinSlider from './components/ProteinSlider';
 import Footer from '@/components/Footer';
+import Promotional from '@/components/Promotional';
+import OrderAgain from '@/components/OrderAgain';
 
 export default function Home() {
   return (
@@ -17,12 +19,16 @@ export default function Home() {
       <AnnouncementBanner />
       <Navbar />
       <Hero />
+      <Promotional/>
+      <PromotionalSlider/>
+      <OrderAgain/>
       <ShopCollections />
       <SemiPermanentSlider />
       <PromotionalSlider />
       <ReligiousCollection />
       <ProductFeatures />
       <ShopCollections />
+      <Promotional/>
       <CommunityVideos />
       <DesignCategories />
       <ProteinSlider />

@@ -7,6 +7,7 @@ import { FiMenu } from 'react-icons/fi';
 import { AiOutlineHeart, AiOutlineShoppingCart, AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
 import { MdKeyboardArrowRight, MdLocationOn } from 'react-icons/md';
 import { BiUser } from 'react-icons/bi';
+import MobileMenuSlider from './MobileMenuSlider';
 
 const menuCategories = [
   { name: 'Deals & Sale', icon: '🏷️' },
@@ -31,12 +32,74 @@ const navLinks = [
 
 const menuItems = navLinks;
 
+// 1. Add dropdown menu data for mobile
+const mobileMenu = [
+  {
+    title: 'Temporary',
+    links: [],
+  },
+  {
+    title: 'Semi-Permanent',
+    links: [
+      { name: 'Custom Semi-Permanent', href: '/custom-semi-permanent' },
+      { name: 'Custom Temporary Tattoos', href: '/custom-temporary-tattoos' },
+    ],
+  },
+  {
+    title: 'Custom Tattoos',
+    links: [
+      { name: 'Custom Semi-Permanent', href: '/custom-semi-permanent' },
+      { name: 'Custom Temporary Tattoos', href: '/custom-temporary-tattoos' },
+    ],
+  },
+  {
+    title: 'Categories',
+    links: [
+      { name: 'Custom Semi-Permanent', href: '/custom-semi-permanent' },
+      { name: 'Custom Temporary Tattoos', href: '/custom-temporary-tattoos' },
+    ],
+  },
+  {
+    title: 'Custom',
+    links: [
+      { name: 'Custom Semi-Permanent', href: '/custom-semi-permanent' },
+      { name: 'Custom Temporary Tattoos', href: '/custom-temporary-tattoos' },
+    ],
+  },
+];
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeLink, setActiveLink] = useState('New Arrivals');
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+
+  // Handle scroll lock when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    return () => {
+      // Cleanup styles when component unmounts
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isMenuOpen]);
 
   const handleScroll = useCallback(() => {
     const currentScroll = window.scrollY;
@@ -56,7 +119,7 @@ const Navbar = () => {
     let ticking = false;
 
     const onScroll = () => {
-      if (!ticking) {
+      if (!ticking && !isMenuOpen) {  // Only handle scroll when menu is closed
         window.requestAnimationFrame(() => {
           handleScroll();
           ticking = false;
@@ -67,20 +130,7 @@ const Navbar = () => {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [handleScroll]);
-
-  // Handle body scroll lock when menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-    
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, [isMenuOpen]);
+  }, [handleScroll, isMenuOpen]);
 
   return (
     <>
@@ -153,7 +203,7 @@ const Navbar = () => {
           </div>
 
           {/* Main Navigation Links */}
-          <div className={`border-t border-gray-200 ${showNav ? 'block' : 'hidden'}`}>
+          <div className="border-t border-transparent transition-all duration-300 transform translate-y-0 opacity-100">
             {/* Desktop Navigation */}
             <div className="hidden md:flex justify-center space-x-8 py-3">
               {navLinks.map((link) => (
@@ -173,7 +223,7 @@ const Navbar = () => {
             {/* Mobile Navigation */}
             <div className="md:hidden">
               <div className="overflow-x-auto scrollbar-hide">
-                <div className="flex space-x-6 px-4 py-2 whitespace-nowrap">
+                <div className="flex space-x-6 px-4 py-0.5 whitespace-nowrap">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
@@ -201,23 +251,34 @@ const Navbar = () => {
         onClick={() => setIsMenuOpen(false)}
       >
         <div
-          className={`fixed inset-y-0 left-0 w-full max-w-sm bg-white transform transition-transform duration-300 ease-in-out ${
+          className={`fixed inset-y-0 left-0 w-full max-w-sm bg-white transform transition-transform duration-300 ease-in-out flex flex-col h-[100dvh] ${
             isMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close Button */}
-          <div className="flex justify-end p-4">
+          {/* Logo Centered and Close Button Top Right */}
+          <div className="relative pt-4 pb-2 px-4 flex items-center justify-center">
+            <Link href="/" className="flex items-center mx-auto">
+              <Image
+                src="/logo.avif"
+                alt="BigBasket"
+                width={80}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
+            </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="text-black"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-black"
+              aria-label="Close Menu"
             >
-              <AiOutlineClose className="h-6 w-6" />
+              <AiOutlineClose className="h-7 w-7" />
             </button>
           </div>
 
           {/* Search Bar */}
-          <div className="px-4 pb-4">
+          <div className="shrink-0 px-4 pb-4">
             <div className="relative">
               <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
@@ -230,29 +291,60 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Mobile Menu Image Slider Section */}
+          <div className="px-4 pb-4">
+            <MobileMenuSlider />
+          </div>
+
           {/* Menu Items */}
-          <div className="overflow-y-auto">
-            {menuItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 font-bold"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setActiveLink(item.name);
-                }}
-              >
-                <span className="text-base">{item.name}</span>
-                <MdKeyboardArrowRight className="h-6 w-6 text-gray-400" />
-              </Link>
-            ))}
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <div className="h-full">
+              {mobileMenu.map((item, idx) => (
+                <div key={item.title}>
+                  <button
+                    className={`flex items-center justify-between px-4 py-3 w-full text-left font-semibold ${openDropdown === idx ? 'bg-blue-100' : ''}`}
+                    onClick={() => setOpenDropdown(openDropdown === idx ? null : idx)}
+                  >
+                    <span className="text-base font-medium">{item.title}</span>
+                    <span className={`transition-transform duration-200 ${openDropdown === idx ? 'rotate-180' : ''}`}>
+                      <MdKeyboardArrowRight className="h-6 w-6 text-gray-400" />
+                    </span>
+                  </button>
+                  {/* Dropdown links with animation */}
+                  {item.links.length > 0 && (
+                    <div
+                      className={
+                        `overflow-hidden bg-white
+                        transition-[max-height,opacity,transform] duration-400 ease-in-out
+                        will-change-[max-height,opacity,transform]
+                        ${openDropdown === idx
+                          ? 'max-h-[999px] opacity-100 translate-y-0 transition-delay-0'
+                          : 'max-h-0 opacity-0 -translate-y-2 transition-delay-300'
+                        }`
+                      }
+                    >
+                      {item.links.map((link) => (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          className="block px-8 py-2 text-base text-black hover:bg-gray-50 transition-opacity duration-300"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Bottom Section */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t">
+          <div className="shrink-0 border-t bg-white">
             <div className="p-4">
               <p className="text-sm mb-4">Sign up now to receive 10% off your next purchase</p>
-              <div className="flex gap-4 mb-4">
+              <div className="flex gap-4">
                 <Link
                   href="/signup"
                   className="flex-1 bg-[#ffeb00] text-black py-2 rounded text-center font-medium"
@@ -264,16 +356,6 @@ const Navbar = () => {
                   className="flex-1 border border-black text-black py-2 rounded text-center font-medium"
                 >
                   Login
-                </Link>
-              </div>
-              <div className="space-y-3">
-                <Link href="/student-discount" className="flex items-center text-sm">
-                  <span className="mr-2">🎓</span>
-                  Student Discount
-                </Link>
-                <Link href="/shipping" className="flex items-center text-sm">
-                  <span className="mr-2">📦</span>
-                  Free Shipping
                 </Link>
               </div>
             </div>
